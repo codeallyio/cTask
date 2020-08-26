@@ -7,7 +7,7 @@
  and return table with average time spent on trip for every weekday and for every hour.
  Returned values should be in seconds.
  
- Complete the function in journey.c file according to its documentation. In <b>main.c</b> file you can find
+ Complete the function in <b>trip.c</b> file according to its documentation. In <b>main.c</b> file you can find
  some example data. All necessary information to complete this task are in <b>trip.c/.h</b> files.
  Do <b>NOT</b> change anything except <b>trip.c</b> file and <b>get_trip_example</b> function in <b>main.c</b>
  
