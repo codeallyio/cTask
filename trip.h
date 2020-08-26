@@ -1,5 +1,5 @@
-#ifndef TRAFFICANALYZER_JOURNEY_H
-#define TRAFFICANALYZER_JOURNEY_H
+#ifndef TRAFFICANALYZER_TRIP_H
+#define TRAFFICANALYZER_TRIP_H
 
 enum WeekDay {
     Monday = 0,
@@ -18,8 +18,8 @@ typedef struct {
 
 typedef struct {
     timestamp_t *start, *end;
-} journey_t;
+} trip_t;
 
-int **average_time_in_traffic(journey_t **journeys);
+int **average_time_on_business(trip_t **trips, int trips_num);
 
-#endif //TRAFFICANALYZER_JOURNEY_H
+#endif //TRAFFICANALYZER_TRIP_H

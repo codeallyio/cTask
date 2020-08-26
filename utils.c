@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "utils.h"
-#include "journey.h"
+#include "trip.h"
 
 int display_average_time_spent(int **average_time_spent) {
     if (average_time_spent == NULL) {
@@ -70,26 +70,27 @@ int display_average_time_spent(int **average_time_spent) {
             int k = average_time_spent[i][j];
             int l = 10000;
             for (int m = 0; m < 5; m++) {
-                row[6 * j + 11 + m] = (char)('0' + k / l);
+                row[6 * j + 11 + m] = (char) ('0' + k / l);
                 k %= l;
                 l /= 10;
             }
             for (int m = 0; m < 5; m++) {
-                if (row[6 * j + 11 + m] == '0')
+                if (row[6 * j + 11 + m] == '0' && m != 4)
                     row[6 * j + 11 + m] = ' ';
                 else
                     break;
             }
         }
         printf("%s", row);
-        printf("%s", line);
     }
+    printf("%s", line);
     free(row);
     free(line);
     return 0;
 }
 
-timestamp_t *create_timestamp(enum WeekDay day, int hr, int min, int sec) {
+static timestamp_t *
+create_timestamp(enum WeekDay day, int hr, int min, int sec) {
     timestamp_t *timestamp = malloc(sizeof(timestamp_t));
     if (timestamp == NULL)
         return NULL;
@@ -100,48 +101,53 @@ timestamp_t *create_timestamp(enum WeekDay day, int hr, int min, int sec) {
     return timestamp;
 }
 
-journey_t *create_journey(enum WeekDay day1, int hr1, int min1, int sec1,
-                          enum WeekDay day2, int hr2, int min2, int sec2) {
-    journey_t *journey = malloc(sizeof(journey_t));
-    if (journey == NULL)
+trip_t *create_trip(enum WeekDay day1, int hr1, int min1, int sec1,
+                    enum WeekDay day2, int hr2, int min2, int sec2) {
+    trip_t *trip = malloc(sizeof(trip_t));
+    if (trip == NULL)
         return NULL;
 
-    journey->start = create_timestamp(day1, hr1, min1, sec1);
-    journey->end = create_timestamp(day2, hr2, min2, sec2);
+    trip->start = create_timestamp(day1, hr1, min1, sec1);
+    trip->end = create_timestamp(day2, hr2, min2, sec2);
 
-    if (journey->start == NULL || journey->end == NULL) {
-        free(journey->end);
-        free(journey->start);
-        free(journey);
+    if (trip->start == NULL || trip->end == NULL) {
+        free(trip->end);
+        free(trip->start);
+        free(trip);
         return NULL;
     }
-    return journey;
+    return trip;
 }
 
-journey_t **get_journeys_from_stdin() {
-    int journeys_num;
+trip_t **get_trips_from_stdin(int trips_num) {
     int args[8];
-    journey_t **journeys;
+    trip_t **trips;
 
-    scanf("%d", &journeys_num);
-
-    journeys = malloc(journeys_num * sizeof(journeys_num));
-    if (journeys == NULL)
+    trips = malloc(trips_num * sizeof(trip_t *));
+    if (trips == NULL)
         return NULL;
 
-    for (int i = 0; i < journeys_num; i++) {
+    for (int i = 0; i < trips_num; i++) {
         for (int j = 0; j < 8; j++)
-            scanf("%d", &args[j]);
-        journeys[i] = create_journey(args[0], args[1], args[2], args[3],
-                                     args[4], args[5], args[6], args[7]);
+            scanf("%d", &args[j]);/*
+        fprintf(stderr, "%d %d %d %d %d %d %d %d\n", args[0], args[1], args[2],
+                args[3], args[4], args[5], args[6], args[7]);*/
+        trips[i] = create_trip(args[0], args[1], args[2], args[3],
+                               args[4], args[5], args[6], args[7]);
     }
-    for (int i = 0; i < journeys_num; i++) {
-        if (journeys[i] == NULL) {
-            for (int j = 0; j < journeys_num; j++)
-                free(journeys[j]);
-            free(journeys);
+    for (int i = 0; i < trips_num; i++) {
+        if (trips[i] == NULL) {
+            for (int j = 0; j < trips_num; j++)
+                free(trips[j]);
+            free(trips);
             return NULL;
         }
     }
-    return journeys;
+    return trips;
+}
+
+int get_trips_num_from_stdin() {
+    int num;
+    scanf("%d", &num);
+    return num;
 }
