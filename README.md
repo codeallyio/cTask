@@ -8,8 +8,8 @@
  Returned values should be in seconds.
  
  Complete the function in journey.c file according to its documentation. In <b>main.c</b> file you can find
- some example data. All necessary information to complete this task are in <b>journey.c/.h</b> files.
- Do <b>NOT</b> change anything except <b>journey.c</b> file and <b>get_trip_example</b> function in <b>main.c</b>
+ some example data. All necessary information to complete this task are in <b>trip.c/.h</b> files.
+ Do <b>NOT</b> change anything except <b>trip.c</b> file and <b>get_trip_example</b> function in <b>main.c</b>
  
 ##### Run your solution
 
