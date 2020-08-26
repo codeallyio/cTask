@@ -1,42 +1,43 @@
+#include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
+#include "utils.h"
 
-enum WeekDay {
-    Monday = 0,
-    Tuesday = 1,
-    Wednesday = 2,
-    Thursday = 3,
-    Friday = 4,
-    Saturday = 5,
-    Sunday = 6
-};
 
-typedef struct {
-    enum WeekDay day;
-    int hr, min, sec;
-} timestamp_t;
-
-typedef struct {
-    timestamp_t *start, *end;
-} journey_t;
-
-/** @brief Calculates average time spent in traffic.
- * Calculates average time per journey spent in traffic for every weekday
- * for all day and every hour.
- * Returns array containing average time in seconds. If average time is not
- * integer, rounds it. For example result[Monday][6] contains average time
- * per journey spent in traffic on Mondays from 06:00:00 to 06:00:59
- * and result[Monday][24] is average time in traffic spent on Mondays.
- * @param journeys [in]   - array of journey pointers.
- * @return Array with average time spent in traffic for every weekday
- * for all day end every hour calculated in seconds, NULL if @p journeys
- * is NULL.
- */
-int **average_time_in_traffic(journey_t **journeys) {
-    // TODO implement this function and complete documentation if necessary
-    return NULL;
+journey_t **get_example_journeys() {
+    journey_t **journeys = malloc(5 * sizeof(journey_t *));
+    journeys[0] = create_journey(Monday, 14, 0, 0, Monday, 17, 0, 0);
+    journeys[1] = create_journey(Tuesday, 12, 30, 0, Tuesday, 13, 0, 0);
+    journeys[2] = create_journey(Wednesday, 21, 0, 0, Thursday, 1, 0, 0);
+    journeys[3] = create_journey(Friday, 11, 0, 0, Sunday, 13, 0, 0);
+    journeys[4] = create_journey(Saturday, 20, 0, 0, Sunday, 10, 0, 0);
+    for (int i = 0; i < 5; i++) {
+        if (journeys[i] == NULL) {
+            for (int j = 0; j < 5; j++)
+                free(journeys[j]);
+            free(journeys);
+            return NULL;
+        }
+    }
+    return journeys;
 }
 
-int main() {
-    printf("Hello, World!\n");
+int main(int argc, char *argv[]) {
+    journey_t **journeys;
+
+    if (argc == 1) {
+        journeys = get_example_journeys();
+    } else {
+        journeys = get_journeys_from_stdin();
+    }
+
+    if (journeys == NULL) {
+        fprintf(stderr, "Memory allocation error\n");
+    }
+
+    int **average_time_table = average_time_in_traffic(journeys);
+    if (display_average_time_spent(average_time_table) != 0)
+        fprintf(stderr, "Memory allocation error\n");
+
     return 0;
 }

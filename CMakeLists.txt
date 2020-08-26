@@ -3,4 +3,4 @@ project(TrafficAnalyzer C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(TrafficAnalyzer main.c)
+add_executable(TrafficAnalyzer main.c utils.c utils.h journey.c journey.h)
