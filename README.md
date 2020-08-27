@@ -1,6 +1,6 @@
 ### Business Travel Analyzer
 
- Your company workers are very often on business trip. You want to know when exactly 
+ Your company workers are very often on business trip. Each trip is shorter than 168 hours. You want to know when exactly 
  and how much time they spend on it. 
  
  Implement a function that will analyze array of travel data
